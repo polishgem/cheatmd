@@ -50,6 +50,15 @@ func Load(cheatpaths []cp.Cheatpath) ([]map[string]sheet.Sheet, error) {
 					string(os.PathSeparator),
 				)
 
+				// remove supported file extensions from the title to allow .md, .sh, etc.
+				supportedExtensions := []string{".md", ".sh", ".bash", ".py", ".js", ".ts", ".go", ".rb", ".txt", ".yml", ".yaml", ".json"}
+				for _, ext := range supportedExtensions {
+					if strings.HasSuffix(title, ext) {
+						title = strings.TrimSuffix(title, ext)
+						break
+					}
+				}
+
 				// Don't walk the `.git` directory. Doing so creates
 				// hundreds/thousands of needless syscalls and could
 				// potentially harm performance on machines with slow disks.

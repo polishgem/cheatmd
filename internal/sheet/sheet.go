@@ -46,6 +46,11 @@ func New(
 		return Sheet{}, fmt.Errorf("failed to parse front-matter: %v", err)
 	}
 
+	// if frontmatter did not specify syntax, attempt to guess from file extension
+	if fm.Syntax == "" {
+		fm.Syntax = guessLanguageFromExtension(path)
+	}
+
 	// merge the sheet-specific tags into the cheatpath tags
 	tags = append(tags, fm.Tags...)
 

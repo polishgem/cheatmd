@@ -2,6 +2,7 @@ package sheet
 
 import (
 	"fmt"
+	"path/filepath"
 	"runtime"
 	"strings"
 
@@ -42,4 +43,35 @@ func parse(markdown string) (frontmatter, string, error) {
 	}
 
 	return fm, parts[2], nil
+}
+
+// extensionToLanguage maps file extensions to syntax highlighting languages
+var extensionToLanguage = map[string]string{
+	".md":   "markdown",
+	".sh":   "bash",
+	".bash": "bash",
+	".py":   "python",
+	".js":   "javascript",
+	".ts":   "typescript",
+	".go":   "go",
+	".rb":   "ruby",
+	".yml":  "yaml",
+	".yaml": "yaml",
+	".json": "json",
+	".php":  "php",
+	".java": "java",
+	".c":    "c",
+	".cpp":  "cpp",
+	".rs":   "rust",
+	".sql":  "sql",
+}
+
+// guessLanguageFromExtension attempts to determine the syntax highlighting
+// language from a file's extension
+func guessLanguageFromExtension(path string) string {
+	ext := filepath.Ext(path)
+	if lang, ok := extensionToLanguage[ext]; ok {
+		return lang
+	}
+	return ""
 }
