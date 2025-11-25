@@ -57,8 +57,9 @@ func cmdEdit(opts map[string]interface{}, conf config.Config) {
 			os.Exit(1)
 		}
 
-		// compute the new edit path
-		editpath = filepath.Join(writepath.Path, sheet.Title)
+		// compute the new edit path, preserving the original file extension
+		ext := filepath.Ext(sheet.Path)
+		editpath = filepath.Join(writepath.Path, sheet.Title+ext)
 
 		// create any necessary subdirectories
 		dirs := filepath.Dir(editpath)
@@ -86,8 +87,8 @@ func cmdEdit(opts map[string]interface{}, conf config.Config) {
 			os.Exit(1)
 		}
 
-		// compute the new edit path
-		editpath = filepath.Join(writepath.Path, cheatsheet)
+		// compute the new edit path, adding .md extension for new files
+		editpath = filepath.Join(writepath.Path, cheatsheet+".md")
 
 		// create any necessary subdirectories
 		dirs := filepath.Dir(editpath)
